@@ -2,8 +2,7 @@
 	heap
 	This question requires you to implement a binary heap function
 */
-
-
+// I AM NOT DONE
 
 use std::cmp::Ord;
 use std::default::Default;
@@ -102,25 +101,8 @@ where
     type Item = T;
 
     fn next(&mut self) -> Option<T> {
-        if self.count == 0 {
-            None
-        } else {
-            self.items.swap(1, self.count);
-            self.count -= 1;
-
-            let mut idx = 1;
-            let mut smallest_child_idx = self.smallest_child_idx(idx);
-
-            while smallest_child_idx <= self.count
-                && (self.comparator)(&self.items[smallest_child_idx], &self.items[idx])
-            {
-                self.items.swap(idx, smallest_child_idx);
-                idx = smallest_child_idx;
-                smallest_child_idx = self.smallest_child_idx(idx);
-            }
-
-            self.items.pop()
-        }
+        //TODO
+		None
     }
 }
 

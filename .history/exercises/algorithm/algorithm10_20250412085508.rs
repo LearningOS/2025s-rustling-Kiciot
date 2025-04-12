@@ -2,8 +2,7 @@
 	graph
 	This problem requires you to implement a basic graph functio
 */
-
-
+// I AM NOT DONE
 
 use std::collections::{HashMap, HashSet};
 use std::fmt;
@@ -57,7 +56,7 @@ pub trait Graph {
     }
 
     fn add_edge(&mut self, edge: (&str, &str, i32)) {
-        self.add_edge(edge);
+        self.add_edge
     }
     fn contains(&self, node: &str) -> bool {
         self.adjacency_table().get(node).is_some()

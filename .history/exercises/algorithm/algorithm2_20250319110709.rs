@@ -1,7 +1,8 @@
 /*
-	single linked list merge
-	This problem requires you to merge two ordered singly linked lists into one ordered singly linked list
+	double linked list reverse
+	This problem requires you to reverse a doubly linked list
 */
+// I AM NOT DONE
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
@@ -11,12 +12,14 @@ use std::vec::*;
 struct Node<T> {
     val: T,
     next: Option<NonNull<Node<T>>>,
+    prev: Option<NonNull<Node<T>>>,
 }
 
 impl<T> Node<T> {
     fn new(t: T) -> Node<T> {
         Node {
             val: t,
+            prev: None,
             next: None,
         }
     }
@@ -46,6 +49,7 @@ impl<T> LinkedList<T> {
     pub fn add(&mut self, obj: T) {
         let mut node = Box::new(Node::new(obj));
         node.next = None;
+        node.prev = self.end;
         let node_ptr = Some(unsafe { NonNull::new_unchecked(Box::into_raw(node)) });
         match self.end {
             None => self.start = node_ptr,
@@ -68,40 +72,9 @@ impl<T> LinkedList<T> {
             },
         }
     }
-	pub fn merge(mut list_a: LinkedList<T>, mut list_b: LinkedList<T>) -> Self
-    where
-        T: Ord + Clone,
-    {
-        let mut list = LinkedList::<T>::new();
-        let len_a = list_a.length as i32;
-        let len_b = list_b.length as i32;
-        let mut index_a: i32 = 0;
-        let mut index_b: i32 = 0;
-
-        while index_a < len_a && index_b < len_b {
-            let value_a = (*list_a.get(index_a).unwrap()).clone();
-            let value_b = (*list_b.get(index_b).unwrap()).clone();
-            if value_a < value_b {
-                list.add(value_a);
-                index_a += 1;
-            } else {
-                list.add(value_b);
-                index_b += 1;
-            }
-        }
-
-        while index_a < len_a {
-            list.add((*list_a.get(index_a).unwrap()).clone());
-            index_a += 1;
-        }
-
-        while index_b < len_b {
-            list.add((*list_b.get(index_b).unwrap()).clone());
-            index_b += 1;
-        }
-
-        list
-    }
+	pub fn reverse(&mut self){
+		// TODO
+	}
 }
 
 impl<T> Display for LinkedList<T>
@@ -153,45 +126,34 @@ mod tests {
     }
 
     #[test]
-    fn test_merge_linked_list_1() {
-		let mut list_a = LinkedList::<i32>::new();
-		let mut list_b = LinkedList::<i32>::new();
-		let vec_a = vec![1,3,5,7];
-		let vec_b = vec![2,4,6,8];
-		let target_vec = vec![1,2,3,4,5,6,7,8];
-		
-		for i in 0..vec_a.len(){
-			list_a.add(vec_a[i]);
+    fn test_reverse_linked_list_1() {
+		let mut list = LinkedList::<i32>::new();
+		let original_vec = vec![2,3,5,11,9,7];
+		let reverse_vec = vec![7,9,11,5,3,2];
+		for i in 0..original_vec.len(){
+			list.add(original_vec[i]);
 		}
-		for i in 0..vec_b.len(){
-			list_b.add(vec_b[i]);
-		}
-		println!("list a {} list b {}", list_a,list_b);
-		let mut list_c = LinkedList::<i32>::merge(list_a,list_b);
-		println!("merged List is {}", list_c);
-		for i in 0..target_vec.len(){
-			assert_eq!(target_vec[i],*list_c.get(i as i32).unwrap());
+		println!("Linked List is {}", list);
+		list.reverse();
+		println!("Reversed Linked List is {}", list);
+		for i in 0..original_vec.len(){
+			assert_eq!(reverse_vec[i],*list.get(i as i32).unwrap());
 		}
 	}
-	#[test]
-	fn test_merge_linked_list_2() {
-		let mut list_a = LinkedList::<i32>::new();
-		let mut list_b = LinkedList::<i32>::new();
-		let vec_a = vec![11,33,44,88,89,90,100];
-		let vec_b = vec![1,22,30,45];
-		let target_vec = vec![1,11,22,30,33,44,45,88,89,90,100];
 
-		for i in 0..vec_a.len(){
-			list_a.add(vec_a[i]);
+	#[test]
+	fn test_reverse_linked_list_2() {
+		let mut list = LinkedList::<i32>::new();
+		let original_vec = vec![34,56,78,25,90,10,19,34,21,45];
+		let reverse_vec = vec![45,21,34,19,10,90,25,78,56,34];
+		for i in 0..original_vec.len(){
+			list.add(original_vec[i]);
 		}
-		for i in 0..vec_b.len(){
-			list_b.add(vec_b[i]);
-		}
-		println!("list a {} list b {}", list_a,list_b);
-		let mut list_c = LinkedList::<i32>::merge(list_a,list_b);
-		println!("merged List is {}", list_c);
-		for i in 0..target_vec.len(){
-			assert_eq!(target_vec[i],*list_c.get(i as i32).unwrap());
+		println!("Linked List is {}", list);
+		list.reverse();
+		println!("Reversed Linked List is {}", list);
+		for i in 0..original_vec.len(){
+			assert_eq!(reverse_vec[i],*list.get(i as i32).unwrap());
 		}
 	}
 }
